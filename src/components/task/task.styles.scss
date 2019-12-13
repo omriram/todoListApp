@@ -1,0 +1,87 @@
+.task {
+    display: flex;
+    font-size: 1.75rem;
+    border-bottom: solid 1px black;
+    padding: 1rem;
+    align-items: center;
+    
+/*     &__description {
+      padding: 1rem;
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      top: 13.6rem;
+      left: 15rem;
+      width: 20rem;
+      height: 20rem;
+      background-color: #36688D;
+      border-radius: 1rem;
+      color: white;
+      transition: all .2s;
+    } */
+  
+
+    &:hover {
+      
+      background-color: rgb(186, 209, 224);
+    }
+
+    &:hover &__description {
+      visibility: visible;
+      opacity: 1;
+    }
+
+
+    &__toggle {
+      margin-right: 1rem;
+   
+    }
+
+    &__icon {
+      width: 1.6rem;
+      height: 1.6rem;
+      transition: all .2s;
+
+      &--delete {
+
+      }
+      &--toggle {
+        &:hover {    
+          background-color: #36688D;
+        }
+      }     
+      &:hover {
+        transform: translateY(-2px);
+      }
+      &:active {
+          transform: translateY(0);
+      }
+    
+    }
+  
+    &__name {
+      max-width: 25rem;
+      margin-right: auto;
+      cursor: pointer;
+    }
+  
+    &__delete {
+      margin-left: 1rem;
+
+    }
+  
+    &-finished {
+      text-decoration: line-through;
+    }
+  }
+  
+  @keyframes fade-in {
+    0% {
+      display: block;
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }

@@ -1,0 +1,68 @@
+.btn {
+    border: none;
+    cursor: pointer;
+    padding: .5rem;
+    background-color: transparent;
+    
+    &:focus {
+        outline: none;
+    }
+}
+
+
+@keyframes topicEntance {
+    0% {
+        transform: translateX(15rem);
+    }
+
+    80% {
+        transform: translateX(-1rem);
+    }
+  
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+@keyframes detailsEntrance {
+    0% {
+    }
+  
+    100% {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+@keyframes announcement {
+    0% {
+        transform: translateY(-5rem);
+    }
+  
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.announcement {
+    animation-name: announcement;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.topicEntance {
+    animation-name: topicEntance;
+    animation-duration: .7s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.detailsEntrance {
+    animation-name: detailsEntrance;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+}
