@@ -4,11 +4,12 @@ import "./task-list.styles.scss";
 import "../../shared-styles.scss";
 import { ReactComponent as AddTask } from "../assets/plus-alt.svg";
 
-const TaskList = ({tasksList, onToggleClick, onDeleteClick, onAddTaskClick, onEditTaskClick}) => {
+const TaskList = ({tasksList, onToggleClick, onDeleteClick, onAddTaskClick, onEditTaskClick, openEditTask}) => {
     let count = 0;
     tasksList.forEach(task => {
-        if(task.isDone) count++;
+        if(task.is_done) count++;
     });
+    console.log(tasksList);
 
     return ( 
         <div className="task-list">
@@ -22,11 +23,12 @@ const TaskList = ({tasksList, onToggleClick, onDeleteClick, onAddTaskClick, onEd
             </div>
             <div className="task-list__body">
                 {tasksList.map(task => {
-                    return <Task key={task.taskId}
+                    return <Task key={task.id}
                      task={task} 
                      onToggleClick={onToggleClick} 
                      onDeleteClick={onDeleteClick}
-                     onEditTaskClick={onEditTaskClick} />
+                     onEditTaskClick={onEditTaskClick}
+                     />
                 })}
             </div>
             <div className="task-list__footer">

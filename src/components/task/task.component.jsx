@@ -7,29 +7,27 @@ import { ReactComponent as DeleteTask } from "../assets/bin.svg";
 
 const Task = ({task, onToggleClick, onDeleteClick, onEditTaskClick}) => {
     let taskNameClass, checkboxIcon;
-    if(task.isDone) {
+    if(task.is_done) {
         checkboxIcon = <CheckboxChecked className="task__icon task__icon--toggle" />;
         taskNameClass = "task__name task-finished";
     } else {
         checkboxIcon = <CheckboxUnchecked className="task__icon task__icon--toggle" />;
         taskNameClass = "task__name";
     }
-    console.log()
+
+ 
     return ( 
         <div className="task">
-            <button className="btn task__toggle" onClick={() => onToggleClick(task.taskId)}>
+            <button className="btn task__toggle" onClick={() => onToggleClick(task.id)}>
                 {checkboxIcon}
             </button>
-            <span className={taskNameClass}
-            onClick={() => onEditTaskClick(task.taskId, task.taskName, task.taskDescription)}>
-                {task.taskName}
+            <span tabIndex="0" className={taskNameClass}
+            onClick={() => onEditTaskClick(task.id, task.title, task.description)}>
+                {task.title}
             </span>
-            <button className="btn task__delete" onClick={() => onDeleteClick(task.taskId)}>
+            <button className="btn task__delete" onClick={() => onDeleteClick(task.id)}>
             <DeleteTask className="task__icon task__icon--delete" />
             </button>
- {/*            {task.taskDescription &&
-            <div className="task__description"><u>description</u><br/>{task.taskDescription}</div> } */}
-            
         </div>
      );
 }

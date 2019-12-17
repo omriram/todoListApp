@@ -4,27 +4,13 @@
     border-bottom: solid 1px black;
     padding: 1rem;
     align-items: center;
-    
-/*     &__description {
-      padding: 1rem;
-      visibility: hidden;
-      opacity: 0;
-      position: absolute;
-      top: 13.6rem;
-      left: 15rem;
-      width: 20rem;
-      height: 20rem;
-      background-color: #36688D;
-      border-radius: 1rem;
-      color: white;
-      transition: all .2s;
-    } */
   
 
-    &:hover {
-      
+    &:hover { 
       background-color: rgb(186, 209, 224);
     }
+
+   
 
     &:hover &__description {
       visibility: visible;
@@ -63,6 +49,11 @@
       max-width: 25rem;
       margin-right: auto;
       cursor: pointer;
+      
+      &:focus {
+        background-color: rgb(113, 183, 230);
+      }  
+  
     }
   
     &__delete {
@@ -73,6 +64,10 @@
     &-finished {
       text-decoration: line-through;
     }
+  }
+
+  .task-edit-bg {
+    background-color: red;
   }
   
   @keyframes fade-in {

@@ -3,8 +3,8 @@ import "./task-form.styles.scss";
 import "../../shared-styles.scss";
 
 class TaskForm extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             taskName: "",
             taskDescription: ""
@@ -32,11 +32,19 @@ class TaskForm extends Component {
     render() { 
         const {taskName, taskDescription} = this.state;
         const {className, editTask, onFormExitClick} = this.props;
-       
-        const taskNamePl = editTask !== undefined ? editTask.taskName : "Task name";
-        const taskDescriptionPl = editTask !== undefined ? editTask.taskDescription : "Task description";
-        const formName = editTask === undefined ? "createNewTask" : "editTask";
-        const editTaskId =  editTask === undefined ? null : editTask.taskId;
+        let formName, editTaskId, taskNamePl, taskDescriptionPl;
+
+        if(editTask) {
+            formName = "editTask";
+            editTaskId = editTask.taskId;
+            taskNamePl = editTask.taskName;
+            taskDescriptionPl = editTask.taskDescription;
+        } else {
+            formName = "createNewTask";
+            editTaskId = null;
+            taskNamePl = "Task Name";
+            taskDescriptionPl = "Task Description";
+        }
 
         return ( 
             <form className={`task-form ${className} detailsEntrance`} onSubmit={this.onSubmitForm}>
@@ -45,13 +53,15 @@ class TaskForm extends Component {
                     className="task-form__input" 
                     placeholder={taskNamePl}
                     required
-                    onChange={this.onInputChange}
-                    maxLength="20" />                
+                    onChange={this.onInputChange}     
+                    value={this.state.taskName}
+                    maxLength="17" />                
             <textarea cols="30"
                     rows="20" 
                     className="task-form__text-area"
                     placeholder={taskDescriptionPl}
                     onChange={this.onInputChange}
+                    value={this.state.taskDescription}
                     />
             
             <button className="btn task-form__submit" 

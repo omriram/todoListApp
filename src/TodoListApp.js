@@ -1,46 +1,14 @@
 import React, { Component } from "react";
 import TaskList from "./components/task-list/task-list.component";
 import TaskForm from "./components/task-form/task-form.component";
+import axios from "axios";
 import "./TodoListApp.scss";
-
-const arrTest = [
-  {
-    taskId: 1,
-    taskName: "clean the house",
-    taskDescription: "bla bla bla",
-    isDone: false
-  },
-  {
-    taskId: 2,
-    taskName: "buy groceries",
-    taskDescription: "bla bla bla",
-    isDone: false
-  },
-  {
-    taskId: 3,
-    taskName: "walk with the dog",
-    taskDescription: "bla bla bla",
-    isDone: true
-  },
-  {
-    taskId: 4,
-    taskName: "go to a meetup",
-    taskDescription: "bla bla bla",
-    isDone: true
-  },
-  {
-    taskId: 5,
-    taskName: "send resumes",
-    taskDescription: "bla bla bla",
-    isDone: false
-  }
-];
 
 class TodoListApp extends Component {
   constructor() {
     super();
     this.state = {
-      tasksList: arrTest,
+      tasksList: [],
       createTask: false,
       editTask: {},
       openEditTask: false
@@ -48,25 +16,11 @@ class TodoListApp extends Component {
   }
 
   onToggleClick = taskIdInput => {
-    this.setState(prevState => {
-      const tasksListCpy = [...prevState.tasksList];
-      tasksListCpy.forEach(task => {
-        if (task.taskId === taskIdInput) task.isDone = !task.isDone;
-      });
-      return {
-        TaskList: tasksListCpy
-      };
-    });
+    this.axiosRequest("changeTaskStatus", "post", taskIdInput);
   };
 
   onDeleteClick = taskIdInput => {
-    let tasksListCpy = [...this.state.tasksList];
-    let indexToRemove;
-    tasksListCpy.forEach((task, index) => {
-      if (task.taskId === taskIdInput) indexToRemove = index;
-    });
-    tasksListCpy.splice(indexToRemove, 1);
-    this.setState({ tasksList: tasksListCpy });
+    this.axiosRequest("delete", "post", taskIdInput);
   };
 
   onAddTaskClick = () => {
@@ -78,29 +32,17 @@ class TodoListApp extends Component {
   };
 
   onSubmitTaskClick = (editTaskId, taskName, taskDescription) => {
-    const length = this.state.tasksList.length;
-    const { tasksList } = this.state;
+    let route = "";
 
     if (taskName !== "") {
       if (editTaskId === null) {
-        const newTask = {
-          taskId: length > 0 ? tasksList[length - 1].taskId + 1 : 0,
-          taskName,
-          taskDescription,
-          isDone: false
-        };
-        const tasksListCpy = [...this.state.tasksList, newTask];
-        this.setState({ tasksList: tasksListCpy, createTask: false });
+        route = "create";
+        this.setState({ createTask: false });
       } else {
-        tasksList.forEach(task => {
-          if (task.taskId === editTaskId) {
-            task.taskName = taskName;
-            task.taskDescription = taskDescription;
-            task.isDone = false;
-          }
-        });
-        this.setState({ tasksList: tasksList, openEditTask: false });
+        route = "edit";
+        this.setState({ openEditTask: false });
       }
+      this.axiosRequest(route, "post", editTaskId, taskName, taskDescription);
     }
   };
 
@@ -110,6 +52,7 @@ class TodoListApp extends Component {
       taskName,
       taskDescription
     };
+
     this.setState({ editTask, openEditTask: true });
   };
 
@@ -126,6 +69,28 @@ class TodoListApp extends Component {
     }
   };
 
+  axiosRequest = (
+    route,
+    method,
+    taskId = null,
+    taskName = null,
+    taskDescription = null
+  ) => {
+    axios({
+      method,
+      url: `http://localhost:8000/${route}`,
+      data: {
+        taskId,
+        taskName,
+        taskDescription
+      }
+    }).then(res => this.setState({ tasksList: res.data }));
+  };
+
+  componentDidMount() {
+    this.axiosRequest("", "get");
+  }
+
   render() {
     return (
       <div className="container">
@@ -135,6 +100,7 @@ class TodoListApp extends Component {
           onDeleteClick={this.onDeleteClick}
           onAddTaskClick={this.onAddTaskClick}
           onEditTaskClick={this.onEditTaskClick}
+          openEditTask={this.state.openEditTask}
         />
         {this.state.createTask && (
           <TaskForm
